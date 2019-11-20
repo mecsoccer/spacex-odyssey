@@ -6,7 +6,8 @@
   "scripts": {
     "start": "babel-node index.js",
     "start:dev": "nodemon --exec babel-node index.js",
-    "test": "./node_modules/.bin/mocha --exit --timeout 20000 ./src/test --require @babel/register"
+    "test": "./node_modules/.bin/mocha --exit --timeout 20000 ./src/test --require @babel/register",
+    "lint": "./node_modules/.bin/eslint ./src --fix"
   },
   "repository": {
     "type": "git",
