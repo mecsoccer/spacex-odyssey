@@ -31,14 +31,15 @@ describe('Tests for SpaceX Odyssey', () => {
           done();
         });
     });
-    it('#should return error for invalid arguments', (done) => {
+    it('#should return error for invalid fields', (done) => {
       chai.request(app)
         .post('/api/v1/funds')
-        .send({ custoer_id: 10, amount: 3000 })
+        .send({ custoer_id: 10, amount: '3k' })
         .end((err, res) => {
           expect(err).to.equal(null);
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('error').that.is.a('string');
+          expect(res.body).to.have.property('error').that.is.a('array').that.includes('customer_id');
+          expect(res.body).to.have.property('error').that.is.a('array').that.includes('amount');
           expect(res.body).to.have.property('status').that.equals('failed');
           done();
         });
@@ -109,8 +110,42 @@ describe('Tests for SpaceX Odyssey', () => {
         .end((err, res) => {
           expect(err).to.equal(null);
           expect(res.status).to.equal(400);
-          expect(res.body).to.have.property('error').that.is.a('array').that.includes('fr_om');
-          expect(res.body).to.have.property('error').that.is.a('array').that.includes('t_o');
+          expect(res.body).to.have.property('error').that.is.a('array').that.includes('from');
+          expect(res.body).to.have.property('error').that.is.a('array').that.includes('to');
+          expect(res.body).to.have.property('status').that.equals('failed');
+          done();
+        });
+    });
+    it('#should return error if space station does not exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/transportation')
+        .send({
+          customer_id: 1,
+          from: 'mercury',
+          to: 'moon',
+          rocket: 'falcon 9',
+        })
+        .end((err, res) => {
+          expect(err).to.equal(null);
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have.property('error').that.is.a('string');
+          expect(res.body).to.have.property('status').that.equals('failed');
+          done();
+        });
+    });
+    it('#should return error if rocket does not exist', (done) => {
+      chai.request(app)
+        .post('/api/v1/transportation')
+        .send({
+          customer_id: 1,
+          from: 'abuja',
+          to: 'moon',
+          rocket: 'falcon 24',
+        })
+        .end((err, res) => {
+          expect(err).to.equal(null);
+          expect(res.status).to.equal(400);
+          expect(res.body).to.have.property('error').that.is.a('string');
           expect(res.body).to.have.property('status').that.equals('failed');
           done();
         });
