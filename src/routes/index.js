@@ -3,7 +3,7 @@ import { fundWallet, spendFromWallet, getWalletBalance } from '../controller';
 
 const router = express.Router();
 
-router.patch('/funds', fundWallet);
+router.post('/funds', fundWallet);
 router.post('/transportation', spendFromWallet);
 router.get('/funds/:id', getWalletBalance);
 

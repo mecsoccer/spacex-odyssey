@@ -22,8 +22,11 @@ const priceTable = {
 export const fundWallet = (req, res) => {
   const { customer_id, amount } = req.body;
 
-  if (!wallet[customer_id]) wallet[customer_id] = { balance: amount };
-  wallet[customer_id].balance += amount;
+  if (wallet[customer_id]) {
+    wallet[customer_id].balance += amount;
+  } else {
+    wallet[customer_id] = { balance: amount };
+  }
 
   res.status(200).json({ status: 'success', balance: wallet[customer_id].balance });
 };
