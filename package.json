@@ -6,7 +6,7 @@
   "scripts": {
     "start": "babel-node index.js",
     "start:dev": "nodemon --exec babel-node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha --exit --timeout 20000 ./src/test --require @babel/register"
   },
   "repository": {
     "type": "git",
